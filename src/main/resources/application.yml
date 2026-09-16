@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/urlshortener?options=-c%20TimeZone%3DAmerica%2FChicago
+    username: ${DB_USERNAME:urlshortener}
+    password: ${DB_PASSWORD:urlshortener}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+  jackson:
+    time-zone: America/Chicago
+
+server:
+  port: 8080
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+  rate-limit-per-minute: ${RATE_LIMIT_PER_MINUTE:60}
+
+
+orchestration:
+  # Overall deadline for the parallel security/test-planning fan-out.
+  agent-timeout-millis: ${ORCHESTRATION_AGENT_TIMEOUT_MILLIS:2000}
+
+llm:
+  # I disabled this by default. RequirementAgent and ArchitectureAgent
+  # always work deterministically and offline when this is false or no
+  # key is set -- that is what keeps my test suite passing without
+  # network access. Set LLM_ENABLED=true and ANTHROPIC_API_KEY=<key> to
+  # enable real model-backed requirement/architecture reasoning.
+  enabled: ${LLM_ENABLED:false}
+  api-key: ${ANTHROPIC_API_KEY:}
+  model: ${LLM_MODEL:claude-3-5-haiku-20241022}
+  base-url: ${LLM_BASE_URL:https://api.anthropic.com/v1/messages}
+  timeout-millis: ${LLM_TIMEOUT_MILLIS:4000}
+  max-tokens: ${LLM_MAX_TOKENS:512}

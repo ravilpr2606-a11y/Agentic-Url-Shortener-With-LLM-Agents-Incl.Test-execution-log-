@@ -1,0 +1,3 @@
+package com.example.urlshortener.orchestration.service;
+import com.example.urlshortener.orchestration.domain.PolicyEvaluation; import com.example.urlshortener.orchestration.repository.PolicyEvaluationRepository; import org.springframework.stereotype.Service; import java.util.*;
+@Service public class PolicyService { public static final String VERSION="POLICY-1.0"; private final PolicyEvaluationRepository repo; public PolicyService(PolicyEvaluationRepository repo){this.repo=repo;} public boolean evaluate(UUID runId,String policy,boolean mandatory,boolean pass,String reason){repo.save(new PolicyEvaluation(runId,VERSION,policy,pass?"PASS":"FAIL",mandatory,reason)); return pass || !mandatory;} }

@@ -1,0 +1,1 @@
+package com.example.urlshortener.orchestration.repository; import com.example.urlshortener.orchestration.domain.WorkflowRun; import org.springframework.data.jpa.repository.JpaRepository; import java.util.UUID; public interface WorkflowRunRepository extends JpaRepository<WorkflowRun,UUID>{}

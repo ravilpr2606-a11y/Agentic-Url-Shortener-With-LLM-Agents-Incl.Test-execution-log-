@@ -1,0 +1,1 @@
+package com.example.urlshortener.orchestration.agent; import org.springframework.stereotype.Component; @Component public class TestAgent implements Agent { public String name(){return "TEST_AGENT";} public String execute(String r,String s){return "{\"testLayers\":[\"unit\",\"contract\",\"integration\",\"orchestration\",\"security\",\"e2e\"],\"scenario\":\""+s+"\"}";} }

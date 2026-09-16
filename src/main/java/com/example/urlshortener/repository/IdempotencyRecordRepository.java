@@ -1,0 +1,1 @@
+package com.example.urlshortener.repository; import com.example.urlshortener.domain.IdempotencyRecord; import org.springframework.data.jpa.repository.JpaRepository; import java.util.Optional; public interface IdempotencyRecordRepository extends JpaRepository<IdempotencyRecord,String>{ Optional<IdempotencyRecord> findByKeyValue(String keyValue); }

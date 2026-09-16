@@ -1,0 +1,3 @@
+package com.example.urlshortener.controller;
+import org.springframework.http.ResponseEntity; import org.springframework.web.bind.annotation.*; import javax.sql.DataSource; import java.sql.*; import java.util.*;
+@RestController @RequestMapping("/api/v1/health") public class HealthController { private final DataSource dataSource; public HealthController(DataSource dataSource){this.dataSource=dataSource;} @GetMapping public ResponseEntity<Map<String,Object>> health(){try(Connection c=dataSource.getConnection(); PreparedStatement p=c.prepareStatement("SELECT 1"); ResultSet r=p.executeQuery()){r.next(); return ResponseEntity.ok(Map.of("status","UP","database","UP"));}catch(Exception e){return ResponseEntity.status(503).body(Map.of("status","DOWN","database","DOWN"));}}}

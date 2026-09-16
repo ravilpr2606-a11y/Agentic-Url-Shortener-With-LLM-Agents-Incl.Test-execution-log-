@@ -1,0 +1,5 @@
+{
+  "feature": "001-agentic-url-shortener",
+  "status": "prepared-brownfield-baseline",
+  "note": "Run SpecKit initialization in the actual assessment environment and let SpecKit own lifecycle state."
+}

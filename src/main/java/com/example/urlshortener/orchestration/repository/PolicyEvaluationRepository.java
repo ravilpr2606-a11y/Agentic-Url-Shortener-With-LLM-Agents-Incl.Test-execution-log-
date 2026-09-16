@@ -1,0 +1,1 @@
+package com.example.urlshortener.orchestration.repository; import com.example.urlshortener.orchestration.domain.PolicyEvaluation; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface PolicyEvaluationRepository extends JpaRepository<PolicyEvaluation,UUID>{ List<PolicyEvaluation> findByRunIdOrderByEvaluatedAtAsc(UUID runId); }

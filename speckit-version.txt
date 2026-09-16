@@ -1,0 +1,2 @@
+SPECIFY VERSION: UNVERIFIED IN THE PACKAGED EXECUTION ENVIRONMENT
+Reason: the historical CLI version used during development was not captured and the CLI is not installed in the packaging environment. No version is fabricated.

@@ -1,0 +1,108 @@
+openapi: 3.0.3
+info:
+  title: Agentic URL Shortener API
+  version: 1.0.0
+paths:
+  /api/v1/urls:
+    post:
+      summary: Create a short URL
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: {type: string, maxLength: 200}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url]
+              properties:
+                url: {type: string, maxLength: 2048}
+                expiresAt: {type: string, format: date-time}
+      responses:
+        '201': {description: Created}
+        '400': {description: Invalid request}
+        '429': {description: Rate limited}
+  /{shortCode}:
+    get:
+      summary: Redirect to original URL
+      parameters:
+        - {in: path, name: shortCode, required: true, schema: {type: string, pattern: '^[A-Za-z0-9]{7}$'}}
+      responses:
+        '302': {description: Redirect}
+        '404': {description: Unknown or expired}
+  /api/v1/workflows:
+    post:
+      summary: Create a governed SDLC workflow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [requirement]
+              properties:
+                requirement: {type: string}
+                scenario: {type: string, enum: [GREENFIELD, BROWNFIELD, AMBIGUOUS]}
+      responses:
+        '202': {description: Workflow accepted}
+  /api/v1/workflows/{id}:
+    get:
+      summary: Inspect workflow
+      responses:
+        '200': {description: Workflow inspection}
+  /api/v1/workflows/{id}/approvals/{gate}:
+    post:
+      summary: Record explicit human approval or rejection
+      responses:
+        '200': {description: Decision recorded}
+  /api/v1/workflows/{id}/clarification:
+    post:
+      summary: Record an explicit human clarification decision
+      parameters:
+        - {in: path, name: id, required: true, schema: {type: string, format: uuid}}
+        - {in: query, name: decision, required: true, schema: {type: string, enum: [APPROVE, REJECT]}}
+        - {in: query, name: approver, required: true, schema: {type: string}}
+        - {in: query, name: comment, required: false, schema: {type: string}}
+      responses:
+        '200': {description: Clarification decision recorded}
+  /api/v1/workflows/{id}/replan:
+    post:
+      summary: Apply approved upstream requirement change and regenerate downstream work
+      responses:
+        '200': {description: Replanned}
+  /api/v1/workflows/{id}/retry:
+    post:
+      summary: Retry recoverable work
+      responses:
+        '200': {description: Retry result}
+  /api/v1/workflows/{id}/simulate-failure:
+    post:
+      summary: Demonstration-only failure injection
+      responses:
+        '200': {description: Failure path result}
+  /api/v1/workflows/{id}/resume:
+    post:
+      summary: Resume stopped workflow through controlled recovery
+      responses:
+        '200': {description: Resumed}
+  /api/v1/workflows/metrics:
+    get:
+      summary: Prototype reliability metrics
+      responses:
+        '200': {description: Metrics}
+
+  /api/v1/health:
+    get:
+      summary: Operational health
+      responses:
+        '200': {description: Service health}
+  /api/v1/urls/{shortCode}/analytics:
+    get:
+      summary: Redirect analytics for a short code
+      parameters:
+        - {in: path, name: shortCode, required: true, schema: {type: string, pattern: '^[A-Za-z0-9]{7}$'}}
+      responses:
+        '200': {description: Analytics}
+        '404': {description: Unknown short code}

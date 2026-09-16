@@ -1,0 +1,1 @@
+package com.example.urlshortener.orchestration.repository; import com.example.urlshortener.orchestration.domain.WorkflowEvent; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface WorkflowEventRepository extends JpaRepository<WorkflowEvent,UUID>{ List<WorkflowEvent> findByRunIdOrderByOccurredAtAsc(UUID runId); }

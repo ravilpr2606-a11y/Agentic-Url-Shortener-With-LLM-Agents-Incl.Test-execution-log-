@@ -1,0 +1,1 @@
+package com.example.urlshortener.orchestration.agent; import org.springframework.stereotype.Component; @Component public class DocumentationAgent implements Agent { public String name(){return "DOCUMENTATION_AGENT";} public String execute(String r,String s){return "{\"artifacts\":[\"architecture\",\"scenario-evidence\",\"traceability\",\"reviewer-guide\"]}";} }

@@ -1,0 +1,5 @@
+package com.example.urlshortener.orchestration.domain;
+import jakarta.persistence.*; import java.time.Instant; import java.util.UUID;
+@Entity @Table(name="workflow_artifacts")
+public class WorkflowArtifact { @Id private UUID id; @Column(nullable=false) private UUID runId; @Column(nullable=false,length=80) private String type; @Column(nullable=false) private int version; @Column(nullable=false,columnDefinition="text") private String content; @Column(nullable=false) private boolean valid; @Column(nullable=false) private Instant createdAt; protected WorkflowArtifact(){}
+ public WorkflowArtifact(UUID runId,String type,int version,String content){this.id=UUID.randomUUID();this.runId=runId;this.type=type;this.version=version;this.content=content;this.valid=true;this.createdAt=Instant.now();} public UUID getId(){return id;} public UUID getRunId(){return runId;} public String getType(){return type;} public int getVersion(){return version;} public String getContent(){return content;} public boolean isValid(){return valid;} public void invalidate(){valid=false;}}
